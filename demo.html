@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Tin Can API Translation by Georgetown</title>
+
+<link rel="stylesheet" href="css/main.css" type="text/css" />
+
+<!--[if IE]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if lte IE 7]>
+	<script src="js/IE8.js" type="text/javascript"></script><![endif]-->
+<!--[if lt IE 7]>
+
+	<link rel="stylesheet" type="text/css" media="all" href="css/ie6.css"/><![endif]-->
+
+<style type="text/css">
+    #description p:first-child {
+        padding-left: 0;
+    }
+    #description p {
+        padding-left: 2em;
+        margin: .18em;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="georgetown.js"></script>
+<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="prettify/prettify.js"></script>
+</head>
+
+<body id="index" class="home">
+
+<div id="description"></div>
+<div id="formatted"></div>
+
+<script type='text/javascript'>
+    var statement = {
+        "actor" : {
+            "name" : "Example Learner",
+            "mbox" : "mailto:learner@example.scorm.com"
+        },
+        "verb" : "attempted",
+        "object" : {
+            "id" : "http://example.scorm.com/tincan/example/simpleCBT",
+            "definition" : {
+                "name" : { "en-US" : "simple CBT course" } ,
+                "description" : { "en-US" : "A fictitious example CBT course." },
+                 'type': 'quiz',
+                 'interactionType': 'true_false'
+            },
+        },
+        'context': {
+            'language': 'en-US',
+        },
+        "result" : {
+            "score" : { "scaled" : .95, 'raw': 8, 'max': 11},
+            "success" : true,
+            "completion" : true
+        },
+        "inProgress": true,
+        "authority" : {
+            "name" : "Example Learner",
+            "mbox" : "mailto:learner@example.scorm.com"
+        },
+    };
+    var description = translate(statement);
+    var container = $('#description');
+    $('<p>').text(description.base).appendTo(container);
+    var ii;
+    for(ii = 0; ii < description.addendums.length; ii++) {
+        $('<p>').text(description.addendums[ii]).appendTo(container);
+    }
+    var formatted = JSON.stringify(statement, null, 4);
+    var code = $('<pre>').addClass('prettyprint').text(formatted).appendTo($('#formatted'));
+    code.get(0).innerHTML = formatted;
+    prettyPrint();
+</script>
+</body>
+</html>
