@@ -22,6 +22,20 @@
         padding-left: 2em;
         margin: .18em;
     }
+    textarea {
+        width: 95%;
+        height: 18em;
+    }
+    h1 {
+        font-size: 1.2em;
+    }
+    h3 {
+        font-size: 1em;
+    }
+    .error {
+        display: none;
+        color: red;
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="georgetown.js"></script>
@@ -31,6 +45,13 @@
 
 <body id="index" class="home">
 
+<h1>Paste your statement to be translated here.</h1>
+<textarea></textarea>
+<br>
+<input type="button" value="Translate"></input>
+<h3 id='unparseable' class='error'>This is not legal JSON.</h3>
+<h3 id='improper' class='error'>Unable to display statement. Check that it follows the Tin Can standard.</h3>
+<h3>Note: this translator does not validate, though it does catch some particularly egregious errors that interfere with its operation</h3>
 <div id="description"></div>
 <div id="formatted"></div>
 
@@ -64,17 +85,38 @@
             "mbox" : "mailto:learner@example.scorm.com"
         },
     };
-    var description = translate(statement);
-    var container = $('#description');
-    $('<p>').text(description.base).appendTo(container);
-    var ii;
-    for(ii = 0; ii < description.addendums.length; ii++) {
-        $('<p>').text(description.addendums[ii]).appendTo(container);
-    }
-    var formatted = JSON.stringify(statement, null, 4);
-    var code = $('<pre>').addClass('prettyprint').text(formatted).appendTo($('#formatted'));
-    code.get(0).innerHTML = formatted;
-    prettyPrint();
+    var displayStatement = function(statement) {
+        var description = translate(statement);
+        var container = $('#description');
+        container.empty();
+        $('<p>').text(description.base).appendTo(container);
+        var ii;
+        for(ii = 0; ii < description.addendums.length; ii++) {
+            $('<p>').text(description.addendums[ii]).appendTo(container);
+        }
+        var formatted = JSON.stringify(statement, null, 4);
+        $('<pre>').addClass('prettyprint').text(formatted).appendTo($('#formatted').empty());
+        prettyPrint();
+    };
+    var display = function() {
+        var value;
+        try {
+            value = JSON.parse($('textarea').val());
+            $('#unparseable').css('display', 'none');
+        } catch(exception) {
+            $('#unparseable').css('display', 'block');
+            return;
+        }
+        try {
+            displayStatement(value);
+            $('#improper').css('display', 'none');
+        } catch(exception) {
+            $('#improper').css('display', 'block');
+        }
+    };
+    $('textarea').blur(display);
+    $('input').click(display);
+    displayStatement(statement);
 </script>
 </body>
 </html>
