@@ -57,38 +57,56 @@
 
 <script type='text/javascript'>
     var statement = {
-        "actor" : {
-            "name" : "Example Learner",
-            "mbox" : "mailto:learner@example.scorm.com"
-        },
-        "verb" : {
-            "id" : "http://verbs.com/orthogonalized",
-            "display": {
-                "en": "orthogonalized"
-            }
-        },
-        "object" : {
-            "id" : "http://example.scorm.com/tincan/example/simpleCBT",
-            "definition" : {
-                "name" : { "en-US" : "simple CBT course" } ,
-                "description" : { "en-US" : "A fictitious example CBT course." },
-                "type": "http://types.com/quiz",
-                "interactionType": "true_false"
+    "actor": {
+        "name": "Example Learner",
+        "mbox": "mailto:learner@example.scorm.com"
+    },
+    "verb": {
+        "id": "http://verbs.com/completed",
+        "display": {
+            "en": "completed"
+        }
+    },
+    "object": {
+        "id": "http://example.scorm.com/tincan/example/simpleCBT",
+        "definition": {
+            "name": {
+                "en-US": "simple CBT course"
             },
+            "description": {
+                "en-US": "A fictitious example CBT course."
+            },
+            "type": "http://types.com/quiz",
+            "interactionType": "true_false"
+        }
+    },
+    "context": {
+        "language": "en-US",
+        "registration": "aaaaaaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "team": {
+        "name": "Team A",
+        "mbox": "mailto:learner@example.com",
+        "objectType": "Group",
+        "member": [{"account": {"name": "me", "homePage": "http://here.com"}}, {"name": "Bob Jones", "mbox": "mailto:a@b.com"}]
+    }
+    },
+    "result": {
+        "score": {
+            "scaled": 0.95,
+            "raw": 8,
+            "max": 11
         },
-        'context': {
-            'language': 'en-US',
-        },
-        "result" : {
-            "score" : { "scaled" : .95, 'raw': 8, 'max': 11},
-            "success" : true,
-            "completion" : true
-        },
-        "authority" : {
-            "name" : "Example Learner",
-            "mbox" : "mailto:learner@example.scorm.com"
-        },
-    };
+        "success": true,
+        "completion": true,
+        "response": "I love this"
+    },
+    "authority": {
+        "name": "Example Learner",
+        "mbox": "mailto:learner@example.scorm.com",
+        "objectType": "Group",
+        "member": [{"account": {"name": "me", "homePage": "http://here.com"}}, {"name": "Bob Jones", "mbox": "mailto:a@b.com"}]
+    }
+};
     var linkers = {
         'Agent': {
             'opener': '<a href="/stuff?{identifier}">',
