@@ -61,14 +61,19 @@
             "name" : "Example Learner",
             "mbox" : "mailto:learner@example.scorm.com"
         },
-        "verb" : "attempted",
+        "verb" : {
+            "id" : "http://verbs.com/orthogonalized",
+            "display": {
+                "en": "orthogonalized"
+            }
+        },
         "object" : {
             "id" : "http://example.scorm.com/tincan/example/simpleCBT",
             "definition" : {
                 "name" : { "en-US" : "simple CBT course" } ,
                 "description" : { "en-US" : "A fictitious example CBT course." },
-                 'type': 'quiz',
-                 'interactionType': 'true_false'
+                "type": "http://types.com/quiz",
+                "interactionType": "true_false"
             },
         },
         'context': {
@@ -79,20 +84,41 @@
             "success" : true,
             "completion" : true
         },
-        "inProgress": true,
         "authority" : {
             "name" : "Example Learner",
             "mbox" : "mailto:learner@example.scorm.com"
         },
     };
+    var linkers = {
+        'Agent': {
+            'opener': '<a href="/stuff?{identifier}">',
+            'closer': '</a>'
+        },
+        'Activity': {
+            'opener': '<a href="/stuff?{identifier}">',
+            'closer': '</a>'
+        },
+        'Verb': {
+            'opener': '<a href="/stuff?{identifier}">',
+            'closer': '</a>'
+        },
+        'StatementRef': {
+            'opener': '<a href="/stuff?{identifier}">',
+            'closer': '</a>'
+        },
+        'Registration': {
+            'opener': '<a href="/stuff?{identifier}">',
+            'closer': '</a>'
+        }
+    };
     var displayStatement = function(statement) {
-        var description = translate(statement);
+        var description = georgetown.translate(statement);
         var container = $('#description');
         container.empty();
-        $('<p>').text(description.base).appendTo(container);
+        $('<p>').html(description.linkify(linkers)).appendTo(container);
         var ii;
         for(ii = 0; ii < description.addendums.length; ii++) {
-            $('<p>').text(description.addendums[ii]).appendTo(container);
+            $('<p>').html(description.addendums[ii].linkify(linkers)).appendTo(container);
         }
         var formatted = JSON.stringify(statement, null, 4);
         $('<pre>').addClass('prettyprint').text(formatted).appendTo($('#formatted').empty());
