@@ -104,8 +104,9 @@ var georgetown = function() {
             var type = this.keys[code].type;
             var identifier = this.keys[code].identifier;
             if(!identifier.substr) {
-                identifier = encodeURIComponent(JSON.stringify(identifier));
+                identifier = JSON.stringify(identifier);
             }
+            identifier = encodeURIComponent(identifier);
             var linker = linkers[type];
             if(linker) {
                 var opener = linker.opener.replace("{identifier}", identifier);
@@ -245,7 +246,7 @@ var georgetown = function() {
             if(interaction) {
                 types.push("a " + interaction + " interaction");
             }
-            if(types) {
+            if(types.length) {
                 details.append(" (" + types.join(", ") + ")");
             }
             //TODO: alert user to the presence of interactionType etc
